@@ -21,4 +21,10 @@ public class UserRegistrationValidator {
         Matcher matcher = pattern.matcher(mobileNo);
         return matcher.matches();
     }
+
+    boolean validatePassword(String password) {
+        Pattern pattern = Pattern.compile(RegexConstants.PASSWORD_PATTERN);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
 }

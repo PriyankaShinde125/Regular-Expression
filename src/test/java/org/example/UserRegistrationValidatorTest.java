@@ -1,77 +1,120 @@
 package org.example;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 public class UserRegistrationValidatorTest {
-    UserRegistrationValidator validator = new UserRegistrationValidator();
+    UserRegistrationValidator validator;
+
+    public UserRegistrationValidatorTest() {
+        this.validator = new UserRegistrationValidator();
+    }
 
     @Test
     public void givenFirstName_whenProper_shouldReturnTrue() {
         boolean result = validator.validateFirstName("Priyanka");
-        Assert.assertEquals(true, result);
+        assertEquals(true, result);
     }
 
     @Test
     public void givenFirstName_whenInitialLetterSmall_shouldReturnFalse() {
         boolean result = validator.validateFirstName("priyanka");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
 
     @Test
     public void givenFirstName_whenLengthLessThanThree_shouldReturnFalse() {
         boolean result = validator.validateFirstName("Pr");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
 
     @Test
     public void givenFirstName_whenInitialLetterSmallAndLengthIsLessThanThree_shouldReturnFalse() {
         boolean result = validator.validateFirstName("pr");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
 
     @Test
     public void givenLastName_whenProper_shouldReturnTrue() {
         boolean result = validator.validateLastName("Shinde");
-        Assert.assertEquals(true, result);
+        assertEquals(true, result);
     }
 
     @Test
     public void givenLastName_whenInitialLetterSmall_shouldReturnFalse() {
         boolean result = validator.validateLastName("shinde");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
 
     @Test
     public void givenLastName_whenLengthLessThanThree_shouldReturnFalse() {
         boolean result = validator.validateLastName("sh");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
 
     @Test
     public void givenMobileNo_whenProper_shouldReturnTrue() {
         boolean result = validator.validateMobileNumber("+91 9518905320");
-        Assert.assertEquals(true, result);
+        assertEquals(true, result);
     }
 
     @Test
     public void givenMobileNo_whenWithoutCountryCode_shouldReturnFalse() {
         boolean result = validator.validateMobileNumber("9518905320");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
+
     @Test
     public void givenMobileNo_whenLessThanTenDigit_shouldReturnFalse() {
         boolean result = validator.validateMobileNumber("+91 951890530");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
+
     @Test
     public void givenMobileNo_whenWithoutSpaceAfterCountryCode_shouldReturnFalse() {
         boolean result = validator.validateMobileNumber("+919518905320");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
     }
+
     @Test
     public void givenMobileNo_whenWithConsecutiveZeros_shouldReturnFalse() {
         boolean result = validator.validateMobileNumber("+91 0000905320");
-        Assert.assertEquals(false, result);
+        assertEquals(false, result);
+    }
+
+    @ParameterizedTest(name = "#{index} - Run test with password = {0}")
+    @MethodSource("validPasswordProvider")
+    public void givenPasswords_whenAllHavingMinimumLength8_shouldReturnTrue(String password) {
+        boolean result = validator.validatePassword(password);
+        assertEquals(true, result);
+
+    }
+
+    @ParameterizedTest(name = "#{index} - Run test with password = {0}")
+    @MethodSource("invalidPasswordProvider")
+    public void givenPasswords_whenNotHavingMinimumLength8_shouldReturnFalse(String password) {
+        boolean result = validator.validatePassword(password);
+        assertEquals(false, result);
+
+    }
+
+    static Stream<String> validPasswordProvider() {
+        return Stream.of("priyanka",
+                "Pri12345",
+                "#wert2345"
+        );
+    }
+
+    static Stream<String> invalidPasswordProvider() {
+        return Stream.of("priy",
+                "45",
+                "#wer"
+        );
     }
 }
