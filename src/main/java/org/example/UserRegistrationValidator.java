@@ -15,4 +15,10 @@ public class UserRegistrationValidator {
         Matcher matcher = pattern.matcher(lastName);
         return matcher.matches();
     }
+
+    boolean validateMobileNumber(String mobileNo) {
+        Pattern pattern = Pattern.compile(RegexConstants.MOBILE_NUMBER_PATTERN);
+        Matcher matcher = pattern.matcher(mobileNo);
+        return matcher.matches();
+    }
 }
