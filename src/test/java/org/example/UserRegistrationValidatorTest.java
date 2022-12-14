@@ -90,7 +90,7 @@ public class UserRegistrationValidatorTest {
 
     @ParameterizedTest(name = "#{index} - Run test with password = {0}")
     @MethodSource("validPasswordProvider")
-    public void givenPasswords_whenAllHavingMinimumLength8_shouldReturnTrue(String password) {
+    public void givenPasswords_whenProperInput_shouldReturnTrue(String password) {
         boolean result = validator.validatePassword(password);
         assertEquals(true, result);
 
@@ -98,14 +98,14 @@ public class UserRegistrationValidatorTest {
 
     @ParameterizedTest(name = "#{index} - Run test with password = {0}")
     @MethodSource("invalidPasswordProvider")
-    public void givenPasswords_whenNotHavingMinimumLength8_shouldReturnFalse(String password) {
+    public void givenPasswords_whenNotProperInput_shouldReturnFalse(String password) {
         boolean result = validator.validatePassword(password);
         assertEquals(false, result);
 
     }
 
     static Stream<String> validPasswordProvider() {
-        return Stream.of("Priyanka",
+        return Stream.of("Priyanka1",
                 "Pri12345",
                 "#Wert2345"
         );
@@ -115,7 +115,8 @@ public class UserRegistrationValidatorTest {
         return Stream.of("priyanka",
                 "45",
                 "#wer",
-                "12345678"
+                "12345678",
+                "Priyanka"
         );
     }
 }
