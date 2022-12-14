@@ -105,16 +105,17 @@ public class UserRegistrationValidatorTest {
     }
 
     static Stream<String> validPasswordProvider() {
-        return Stream.of("priyanka",
+        return Stream.of("Priyanka",
                 "Pri12345",
-                "#wert2345"
+                "#Wert2345"
         );
     }
 
     static Stream<String> invalidPasswordProvider() {
-        return Stream.of("priy",
+        return Stream.of("priyanka",
                 "45",
-                "#wer"
+                "#wer",
+                "12345678"
         );
     }
 }
