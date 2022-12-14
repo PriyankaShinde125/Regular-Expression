@@ -119,7 +119,8 @@ public class UserRegistrationValidatorTest {
                 "Priyanka",
                 "Pri$$1236",
                 "Priyanka1",
-                "12@45&443e"
+                "12@45&443e",
+                "@#Priya456#"
         );
     }
 }
