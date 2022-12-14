@@ -105,8 +105,8 @@ public class UserRegistrationValidatorTest {
     }
 
     static Stream<String> validPasswordProvider() {
-        return Stream.of("Priyanka1",
-                "Pri12345",
+        return Stream.of("Priyanka$1",
+                "Pri@12345",
                 "#Wert2345"
         );
     }
@@ -116,7 +116,10 @@ public class UserRegistrationValidatorTest {
                 "45",
                 "#wer",
                 "12345678",
-                "Priyanka"
+                "Priyanka",
+                "Pri$$1236",
+                "Priyanka1",
+                "12@45&443e"
         );
     }
 }
