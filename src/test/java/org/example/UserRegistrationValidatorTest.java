@@ -1,13 +1,11 @@
 package org.example;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserRegistrationValidatorTest {
     UserRegistrationValidator validator;
@@ -16,76 +14,81 @@ public class UserRegistrationValidatorTest {
         this.validator = new UserRegistrationValidator();
     }
 
-    @Test
-    public void givenFirstName_whenProper_shouldReturnTrue() {
-        boolean result = validator.validateFirstName("Priyanka");
+    @ParameterizedTest
+    @MethodSource("validFirstNameProvider")
+    public void givenFirstName_whenProper_shouldReturnTrue(String firstName) {
+        boolean result = validator.validateFirstName(firstName);
         assertEquals(true, result);
     }
 
-    @Test
-    public void givenFirstName_whenInitialLetterSmall_shouldReturnFalse() {
-        boolean result = validator.validateFirstName("priyanka");
+    static Stream<String> validFirstNameProvider() {
+        return Stream.of("Priyanka",
+                "John");
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidFirstNameProvider")
+    public void givenFirstName_whenInvalid_shouldReturnFalse(String firstName) {
+        boolean result = validator.validateFirstName(firstName);
         assertEquals(false, result);
     }
 
-    @Test
-    public void givenFirstName_whenLengthLessThanThree_shouldReturnFalse() {
-        boolean result = validator.validateFirstName("Pr");
-        assertEquals(false, result);
+    static Stream<String> invalidFirstNameProvider() {
+        return Stream.of("Pr",
+                "pr",
+                "priyanka");
     }
 
-    @Test
-    public void givenFirstName_whenInitialLetterSmallAndLengthIsLessThanThree_shouldReturnFalse() {
-        boolean result = validator.validateFirstName("pr");
-        assertEquals(false, result);
-    }
-
-    @Test
-    public void givenLastName_whenProper_shouldReturnTrue() {
-        boolean result = validator.validateLastName("Shinde");
+    @ParameterizedTest
+    @MethodSource("validLastNameProvider")
+    public void givenLastName_whenProper_shouldReturnTrue(String lastName) {
+        boolean result = validator.validateLastName(lastName);
         assertEquals(true, result);
     }
 
-    @Test
-    public void givenLastName_whenInitialLetterSmall_shouldReturnFalse() {
-        boolean result = validator.validateLastName("shinde");
+    static Stream<String> validLastNameProvider() {
+        return Stream.of("Shinde",
+                "Uphade");
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidLastNameProvider")
+    public void givenLastName_whenInvalidLastName_shouldReturnFalse(String lastName) {
+        boolean result = validator.validateLastName(lastName);
         assertEquals(false, result);
     }
 
-    @Test
-    public void givenLastName_whenLengthLessThanThree_shouldReturnFalse() {
-        boolean result = validator.validateLastName("sh");
-        assertEquals(false, result);
+    static Stream<String> invalidLastNameProvider() {
+        return Stream.of("shinde",
+                "sh");
     }
 
-    @Test
-    public void givenMobileNo_whenProper_shouldReturnTrue() {
-        boolean result = validator.validateMobileNumber("+91 9518905320");
+    @ParameterizedTest
+    @MethodSource("validMobileNoProvider")
+    public void givenMobileNo_whenProper_shouldReturnTrue(String mobileNumber) {
+        boolean result = validator.validateMobileNumber(mobileNumber);
         assertEquals(true, result);
     }
 
-    @Test
-    public void givenMobileNo_whenWithoutCountryCode_shouldReturnFalse() {
-        boolean result = validator.validateMobileNumber("9518905320");
+    static Stream<String> validMobileNoProvider() {
+        return Stream.of("+91 9518905320",
+                "+243 4567653467"
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidMobileNumberProvider")
+    public void givenMobileNo_whenInvalid_shouldReturnFalse(String mobileNumber) {
+        boolean result = validator.validateMobileNumber(mobileNumber);
         assertEquals(false, result);
     }
 
-    @Test
-    public void givenMobileNo_whenLessThanTenDigit_shouldReturnFalse() {
-        boolean result = validator.validateMobileNumber("+91 951890530");
-        assertEquals(false, result);
-    }
-
-    @Test
-    public void givenMobileNo_whenWithoutSpaceAfterCountryCode_shouldReturnFalse() {
-        boolean result = validator.validateMobileNumber("+919518905320");
-        assertEquals(false, result);
-    }
-
-    @Test
-    public void givenMobileNo_whenWithConsecutiveZeros_shouldReturnFalse() {
-        boolean result = validator.validateMobileNumber("+91 0000905320");
-        assertEquals(false, result);
+    static Stream<String> invalidMobileNumberProvider() {
+        return Stream.of("+9195189",
+                "9518905320",
+                "1-9325849345",
+                "21 2340000000",
+                "+91 0000000345");
     }
 
     @ParameterizedTest(name = "#{index} - Run test with password = {0}")
@@ -121,6 +124,52 @@ public class UserRegistrationValidatorTest {
                 "Priyanka1",
                 "12@45&443e",
                 "@#Priya456#"
+        );
+    }
+
+    @ParameterizedTest(name = "#{index} - Run test with email id = {0}")
+    @MethodSource("validEmailProvider")
+    public void givenEmailIds_whenProperInput_shouldReturnTrue(String emailId) {
+        boolean result = validator.validateEmailId(emailId);
+        assertEquals(true, result);
+
+    }
+
+    @ParameterizedTest(name = "#{index} - Run test with email id = {0}")
+    @MethodSource("invalidEmailProvider")
+    public void givenEmailIds_whenNotProperInput_shouldReturnTrue(String emailId) {
+        boolean result = validator.validateEmailId(emailId);
+        assertEquals(false, result);
+
+    }
+
+    static Stream<String> validEmailProvider() {
+        return Stream.of("abc@yahoo.com",
+                "abc-100@yahoo.com",
+                "abc.100@yahoo.com",
+                "abc111@abc.com",
+                "abc-100@abc.net",
+                "abc.100@abc.com.au",
+                "abc@1.com",
+                "abc@gmail.com.com",
+                "abc+100@gmail.com"
+        );
+    }
+
+    static Stream<String> invalidEmailProvider() {
+        return Stream.of("abc",
+                "abc@.com.my",
+                "abc123@gmail.a",
+                "abc123 @.com",
+                "abc123 @.com.com",
+                ".abc @abc.com",
+                "abc() * @gmail.com",
+                "abc @%*.com",
+                "abc..2002 @gmail.com",
+                "abc.@gmail.com",
+                "abc@abc@gmail.com",
+                "abc@gmail.com.1a",
+                "abc@gmail.com.aa.au"
         );
     }
 }

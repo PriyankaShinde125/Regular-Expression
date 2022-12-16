@@ -27,4 +27,10 @@ public class UserRegistrationValidator {
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
     }
+
+    boolean validateEmailId(String emailId){
+        Pattern pattern = Pattern.compile(RegexConstants.EMAIL_ID_PATTERN);
+        Matcher matcher = pattern.matcher(emailId);
+        return matcher.matches();
+    }
 }
