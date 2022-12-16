@@ -17,7 +17,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest
     @MethodSource("validFirstNameProvider")
     public void givenFirstName_whenProper_shouldReturnTrue(String firstName) {
-        boolean result = validator.validateFirstName(firstName);
+        boolean result = validator.validateFirstName.validate(firstName);
         assertEquals(true, result);
     }
 
@@ -29,7 +29,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest
     @MethodSource("invalidFirstNameProvider")
     public void givenFirstName_whenInvalid_shouldReturnFalse(String firstName) {
-        boolean result = validator.validateFirstName(firstName);
+        boolean result = validator.validateFirstName.validate(firstName);
         assertEquals(false, result);
     }
 
@@ -42,7 +42,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest
     @MethodSource("validLastNameProvider")
     public void givenLastName_whenProper_shouldReturnTrue(String lastName) {
-        boolean result = validator.validateLastName(lastName);
+        boolean result = validator.validateLastName.validate(lastName);
         assertEquals(true, result);
     }
 
@@ -54,7 +54,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest
     @MethodSource("invalidLastNameProvider")
     public void givenLastName_whenInvalidLastName_shouldReturnFalse(String lastName) {
-        boolean result = validator.validateLastName(lastName);
+        boolean result = validator.validateLastName.validate(lastName);
         assertEquals(false, result);
     }
 
@@ -66,7 +66,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest
     @MethodSource("validMobileNoProvider")
     public void givenMobileNo_whenProper_shouldReturnTrue(String mobileNumber) {
-        boolean result = validator.validateMobileNumber(mobileNumber);
+        boolean result = validator.validateMobileNumber.validate(mobileNumber);
         assertEquals(true, result);
     }
 
@@ -79,7 +79,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest
     @MethodSource("invalidMobileNumberProvider")
     public void givenMobileNo_whenInvalid_shouldReturnFalse(String mobileNumber) {
-        boolean result = validator.validateMobileNumber(mobileNumber);
+        boolean result = validator.validateMobileNumber.validate(mobileNumber);
         assertEquals(false, result);
     }
 
@@ -94,7 +94,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest(name = "#{index} - Run test with password = {0}")
     @MethodSource("validPasswordProvider")
     public void givenPasswords_whenProperInput_shouldReturnTrue(String password) {
-        boolean result = validator.validatePassword(password);
+        boolean result = validator.validatePassword.validate(password);
         assertEquals(true, result);
 
     }
@@ -102,7 +102,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest(name = "#{index} - Run test with password = {0}")
     @MethodSource("invalidPasswordProvider")
     public void givenPasswords_whenNotProperInput_shouldReturnFalse(String password) {
-        boolean result = validator.validatePassword(password);
+        boolean result = validator.validatePassword.validate(password);
         assertEquals(false, result);
 
     }
@@ -130,7 +130,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest(name = "#{index} - Run test with email id = {0}")
     @MethodSource("validEmailProvider")
     public void givenEmailIds_whenProperInput_shouldReturnTrue(String emailId) {
-        boolean result = validator.validateEmailId(emailId);
+        boolean result = validator.validateEmailId.validate(emailId);
         assertEquals(true, result);
 
     }
@@ -138,7 +138,7 @@ public class UserRegistrationValidatorTest {
     @ParameterizedTest(name = "#{index} - Run test with email id = {0}")
     @MethodSource("invalidEmailProvider")
     public void givenEmailIds_whenNotProperInput_shouldReturnTrue(String emailId) {
-        boolean result = validator.validateEmailId(emailId);
+        boolean result = validator.validateEmailId.validate(emailId);
         assertEquals(false, result);
 
     }
