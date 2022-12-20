@@ -1,6 +1,7 @@
 package org.example;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
@@ -127,49 +128,36 @@ public class UserRegistrationValidatorTest {
         );
     }
 
-    @ParameterizedTest(name = "#{index} - Run test with email id = {0}")
-    @MethodSource("validEmailProvider")
-    public void givenEmailIds_whenProperInput_shouldReturnTrue(String emailId) {
+    @ParameterizedTest(name = "#{index} - Run test with given email id = {0} should return result = {1}")
+    @MethodSource("emailIdProvider")
+    public void givenEmailIds_whenVariousInput_shouldReturnExpectedResult(String emailId,boolean expectedResult) {
         boolean result = validator.validateEmailId.validate(emailId);
-        assertEquals(true, result);
+        assertEquals(expectedResult, result);
 
     }
-
-    @ParameterizedTest(name = "#{index} - Run test with email id = {0}")
-    @MethodSource("invalidEmailProvider")
-    public void givenEmailIds_whenNotProperInput_shouldReturnTrue(String emailId) {
-        boolean result = validator.validateEmailId.validate(emailId);
-        assertEquals(false, result);
-
-    }
-
-    static Stream<String> validEmailProvider() {
-        return Stream.of("abc@yahoo.com",
-                "abc-100@yahoo.com",
-                "abc.100@yahoo.com",
-                "abc111@abc.com",
-                "abc-100@abc.net",
-                "abc.100@abc.com.au",
-                "abc@1.com",
-                "abc@gmail.com.com",
-                "abc+100@gmail.com"
-        );
-    }
-
-    static Stream<String> invalidEmailProvider() {
-        return Stream.of("abc",
-                "abc@.com.my",
-                "abc123@gmail.a",
-                "abc123 @.com",
-                "abc123 @.com.com",
-                ".abc @abc.com",
-                "abc() * @gmail.com",
-                "abc @%*.com",
-                "abc..2002 @gmail.com",
-                "abc.@gmail.com",
-                "abc@abc@gmail.com",
-                "abc@gmail.com.1a",
-                "abc@gmail.com.aa.au"
+    static Stream<Arguments> emailIdProvider() {
+        return Stream.of(Arguments.of("abc@yahoo.com",true),
+                Arguments.of("abc-100@yahoo.com",true),
+                Arguments.of("abc.100@yahoo.com",true),
+                Arguments.of("abc111@abc.com",true),
+                Arguments.of("abc-100@abc.net",true),
+                Arguments.of("abc.100@abc.com.au",true),
+                Arguments.of("abc@1.com",true),
+                Arguments.of("abc@gmail.com.com",true),
+                Arguments.of("abc+100@gmail.com",true),
+                Arguments.of("abc",false),
+                Arguments.of("abc@.com.my",false),
+                Arguments.of("abc123@gmail.a",false),
+                Arguments.of("abc123 @.com",false),
+                Arguments.of("abc123 @.com.com",false),
+                Arguments.of(".abc @abc.com",false),
+                Arguments.of("abc() * @gmail.com",false),
+                Arguments.of("abc @%*.com",false),
+                Arguments.of("abc..2002 @gmail.com",false),
+                Arguments.of("abc.@gmail.com",false),
+                Arguments.of("abc@abc@gmail.com",false),
+                Arguments.of("abc@gmail.com.1a",false),
+                Arguments.of("abc@gmail.com.aa.au",false)
         );
     }
 }
